@@ -28,7 +28,7 @@ todoRoutes.route('/:id').get((req, res) => {
   let id = req.params.id;
   Todo.findById(id, (err, todo) => {
     if (err) {
-      console.log(err);
+      res.status(404).send('data is not found');
     } else {
       res.json(todo);
     }
