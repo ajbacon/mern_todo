@@ -2,6 +2,17 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
+const Todo = props => (
+  <tr>
+    <td>{props.todo.todo_description}</td>
+    <td>{props.todo.todo_responsible}</td>
+    <td>{props.todo.todo_priority}</td>
+    <td>
+      <Link to={`/edit/${props.todo._id}`}>Edit</Link>
+    </td>
+  </tr>
+);
+
 class TodoList extends React.Component {
   constructor(props) {
     super(props);
@@ -11,7 +22,10 @@ class TodoList extends React.Component {
   componentDidMount() {
     axios
       .get('http://localhost:4000/todos')
-      .then(res => this.setState({ todo: res.data }))
+      .then(res => {
+        console.log(res.data);
+        this.setState({ todos: res.data });
+      })
       .catch(err => {
         console.log(err);
       });
@@ -19,6 +33,7 @@ class TodoList extends React.Component {
 
   todoList = () => {
     return this.state.todos.map((todo, i) => {
+      console.log('here');
       return <Todo todo={todo} key={i} />;
     });
   };
